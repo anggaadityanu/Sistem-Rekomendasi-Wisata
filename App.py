@@ -287,15 +287,18 @@ def main():
     tfidf_matrix, cos_tfidf, cos_count, knn = build_models(df)
 
     # HERO
-    st.markdown("""
+    n_tempat = len(df)
+    n_kota   = df['City'].nunique()
+    n_rating = len(rating)
+    st.markdown(f"""
     <div class="hero">
         <div class="hero-tag">🌿 Machine Learning · Indonesia</div>
         <h1>Temukan Destinasi<br><em>Wisata Terbaikmu</em></h1>
         <p>Sistem rekomendasi cerdas berbasis TF-IDF & Cosine Similarity untuk menemukan tempat wisata yang paling sesuai untukmu.</p>
         <div class="hero-stats">
-            <div><div class="hero-stat-val">437</div><div class="hero-stat-lbl">Tempat Wisata</div></div>
-            <div><div class="hero-stat-val">5</div><div class="hero-stat-lbl">Kota</div></div>
-            <div><div class="hero-stat-val">10K</div><div class="hero-stat-lbl">Data Rating</div></div>
+            <div><div class="hero-stat-val">{n_tempat}</div><div class="hero-stat-lbl">Tempat Wisata</div></div>
+            <div><div class="hero-stat-val">{n_kota}</div><div class="hero-stat-lbl">Kota/Daerah</div></div>
+            <div><div class="hero-stat-val">{n_rating:,}</div><div class="hero-stat-lbl">Data Rating</div></div>
         </div>
     </div>""", unsafe_allow_html=True)
 
