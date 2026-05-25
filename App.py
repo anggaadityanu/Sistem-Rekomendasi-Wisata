@@ -79,8 +79,52 @@ EMOJI_MAP = {
     'Cagar Alam':'🌲','Tempat Ibadah':'🕌','Pusat Perbelanjaan':'🛍️','Lainnya':'📍',
 }
 KOTA_COORD = {
-    'Yogyakarta':(-7.7956,110.3695),'Bandung':(-6.9175,107.6191),
-    'Jakarta':(-6.2088,106.8456),'Surabaya':(-7.2575,112.7521),'Semarang':(-6.9932,110.4203),
+    'Yogyakarta'    :(-7.7956, 110.3695),
+    'Bandung'       :(-6.9175, 107.6191),
+    'Jakarta'       :(-6.2088, 106.8456),
+    'Surabaya'      :(-7.2575, 112.7521),
+    'Semarang'      :(-6.9932, 110.4203),
+    'Bali'          :(-8.3405, 115.0920),
+    'Denpasar'      :(-8.6705, 115.2126),
+    'Malang'        :(-7.9666, 112.6326),
+    'Bogor'         :(-6.5971, 106.8060),
+    'Banten'        :(-6.1200, 106.1500),
+    'Lombok'        :(-8.6500, 116.3244),
+    'Aceh'          :( 5.5480,  95.3238),
+    'Padang'        :(-0.9471, 100.4172),
+    'Palembang'     :(-2.9761, 104.7754),
+    'Pekanbaru'     :( 0.5071, 101.4478),
+    'Lampung'       :(-4.5585, 105.4068),
+    'Jambi'         :(-1.6101, 103.6131),
+    'Pontianak'     :(-0.0263, 109.3425),
+    'Samarinda'     :(-0.5022, 117.1536),
+    'Magelang'      :(-7.4797, 110.2177),
+    'Jember'        :(-8.1724, 113.7022),
+    'Banyuwangi'    :(-8.2192, 114.3691),
+    'Subang'        :(-6.5745, 107.7647),
+    'Sukabumi'      :(-6.9277, 106.9305),
+    'Purwakarta'    :(-6.5566, 107.4387),
+    'Wonosobo'      :(-7.3597, 109.9077),
+    'Boyolali'      :(-7.5327, 110.5974),
+    'Pacitan'       :(-8.1871, 111.1046),
+    'Gunungkidul'   :(-7.9694, 110.6016),
+    'Bantul'        :(-7.8876, 110.3285),
+    'Sleman'        :(-7.7167, 110.3558),
+    'Kulon Progo'   :(-7.8333, 110.1667),
+    'Manggarai'     :(-8.6167, 120.4667),
+    'Ende'          :(-8.8432, 121.6628),
+    'Papua Barat'   :(-1.3361, 133.1747),
+    'Kapuas Hulu'   :( 0.8372, 114.0333),
+    'Kotawaringin'  :(-2.3667, 111.5833),
+    'Kalimantan Timur':( 0.5387, 116.4194),
+    'Kubu Raya'     :(-0.2787, 109.3628),
+    'Situbondo'     :(-7.7058, 114.0079),
+    'Jepara'        :(-6.5894, 110.6746),
+    'Pelalawan'     :( 0.1263, 102.1122),
+    'Pesawaran'     :(-5.4833, 105.1833),
+    'Solok Selatan' :(-1.5833, 101.5000),
+    'Sumatera Barat':(-0.7399, 100.8000),
+    'Sumatra Utara' :( 2.1154,  99.5451),
 }
 
 def get_image_path(tipe, cat):
@@ -148,21 +192,73 @@ def rekomendasikan_by_tipe(tipe, df, top_k):
     hasil['Skor'] = None
     return hasil.reset_index(drop=True)
 
+SINONIM = {
+    'pantai'    : ['pantai','beach','coast','bahari','pesisir','Pantai/Bahari','pulau','island'],
+    'beach'     : ['pantai','beach','coast','bahari','pesisir','Pantai/Bahari'],
+    'gunung'    : ['gunung','mountain','mount','volcano','bukit','puncak','Gunung/Bukit'],
+    'mountain'  : ['gunung','mountain','mount','volcano','bukit','Gunung/Bukit'],
+    'bukit'     : ['bukit','hill','gunung','puncak','Gunung/Bukit'],
+    'taman'     : ['taman','garden','park','kebun','hutan','forest','Kebun/Taman'],
+    'garden'    : ['taman','garden','park','kebun','Kebun/Taman'],
+    'park'      : ['taman','garden','park','kebun','Kebun/Taman'],
+    'kebun'     : ['kebun','garden','taman','zoo','Kebun/Taman'],
+    'museum'    : ['museum','Museum'],
+    'air terjun': ['air terjun','waterfall','curug','Air Terjun'],
+    'waterfall' : ['air terjun','waterfall','curug','Air Terjun'],
+    'curug'     : ['curug','air terjun','waterfall','Air Terjun'],
+    'danau'     : ['danau','lake','telaga','situ','Danau/Sungai'],
+    'lake'      : ['danau','lake','telaga','Danau/Sungai'],
+    'sungai'    : ['sungai','river','Danau/Sungai'],
+    'river'     : ['sungai','river','Danau/Sungai'],
+    'goa'       : ['goa','gua','cave','Goa'],
+    'gua'       : ['goa','gua','cave','Goa'],
+    'cave'      : ['goa','gua','cave','Goa'],
+    'candi'     : ['candi','temple','pura','keraton','Candi/Keraton'],
+    'temple'    : ['candi','temple','pura','Candi/Keraton'],
+    'pura'      : ['pura','temple','candi','Candi/Keraton'],
+    'budaya'    : ['budaya','culture','cultural','Budaya'],
+    'alun'      : ['alun','square','plaza','Alun-alun'],
+    'hiburan'   : ['hiburan','entertainment','theme','Taman Hiburan'],
+    'hutan'     : ['hutan','forest','jungle','mangrove','Cagar Alam'],
+    'forest'    : ['hutan','forest','jungle','Cagar Alam'],
+    'pulau'     : ['pulau','island','pantai','beach','Pantai/Bahari'],
+    'island'    : ['pulau','island','Pantai/Bahari'],
+    'air'       : ['air terjun','waterfall','curug','danau','lake','sungai','river'],
+}
+
 def cari_by_keyword(keyword, df, top_k):
     kw = keyword.strip().lower()
-    mask_utama = (
-        df['Place_Name'].str.lower().str.contains(kw,na=False) |
-        df['Tipe_Wisata'].str.lower().str.contains(kw,na=False) |
-        df['Category'].str.lower().str.contains(kw,na=False) |
-        df['City'].str.lower().str.contains(kw,na=False)
-    )
+    
+    # Ambil semua sinonim
+    keywords = [kw]
+    for key, syns in SINONIM.items():
+        if kw == key or kw in [s.lower() for s in syns]:
+            keywords = list(set([s.lower() for s in syns] + [kw]))
+            break
+    
+    # Bangun mask dari semua sinonim — HANYA nama, tipe, kategori, kota
+    mask_utama = pd.Series([False]*len(df), index=df.index)
+    for k in keywords:
+        mask_utama = mask_utama | (
+            df['Place_Name'].str.lower().str.contains(k, na=False) |
+            df['Tipe_Wisata'].str.lower().str.contains(k, na=False) |
+            df['Category'].str.lower().str.contains(k, na=False) |
+            df['City'].str.lower().str.contains(k, na=False)
+        )
+    
     hasil_utama = df[mask_utama].copy()
-    if len(hasil_utama) < top_k:
-        mask_desc = df['Description'].str.lower().str.contains(kw,na=False) & ~mask_utama
+    
+    # Deskripsi hanya dipakai kalau hasil utama sangat sedikit (< 3)
+    if len(hasil_utama) < 3:
+        mask_desc = pd.Series([False]*len(df), index=df.index)
+        for k in keywords:
+            mask_desc = mask_desc | df['Description'].str.lower().str.contains(k, na=False)
+        mask_desc = mask_desc & ~mask_utama
         hasil = pd.concat([hasil_utama, df[mask_desc]]).head(top_k)
     else:
         hasil = hasil_utama.head(top_k)
-    hasil = hasil.sort_values('Rating',ascending=False)
+    
+    hasil = hasil.sort_values('Rating', ascending=False)
     hasil = hasil[['Place_Name','Category','Tipe_Wisata','City','Rating','Price','Description']].copy()
     hasil['Skor'] = None
     return hasil.reset_index(drop=True)
@@ -320,23 +416,27 @@ def main():
             with col_btn:
                 cari = st.button("🔍 Cari", key="btn_cari")
 
-            if cari and keyword:
-                st.session_state['hasil_kw'] = cari_by_keyword(keyword, df, top_k)
-                st.session_state['keyword_used'] = keyword
+            # Filter selalu tampil di atas hasil
+            fkota, price_range = render_filter(df, "_kw")
 
-            if st.session_state.get('hasil_kw') is not None and not st.session_state['hasil_kw'].empty:
-                fkota, price_range = render_filter(df, "_kw")
-                hasil = apply_filter(st.session_state['hasil_kw'], min_rating, fkota, price_range)
-                kw = st.session_state.get('keyword_used','')
+            if cari and keyword:
+                st.session_state['keyword_used'] = keyword
+            
+            kw = st.session_state.get('keyword_used','')
+            if kw:
+                # Cari dari SELURUH dataset, lalu filter
+                hasil_raw = cari_by_keyword(kw, df, 200)  # ambil banyak dulu
+                hasil = apply_filter(hasil_raw, min_rating, fkota, price_range)
+                hasil = hasil.head(top_k)
                 if not hasil.empty:
                     st.markdown(f'<div class="result-banner">✅ Ditemukan <strong>{len(hasil)} tempat wisata</strong> untuk kata kunci "<strong>{kw}</strong>"</div>', unsafe_allow_html=True)
                     tampilkan_kartu(hasil, show_map)
                 else:
-                    st.warning("Tidak ada hasil sesuai filter.")
+                    st.warning('Tidak ada hasil sesuai filter. Coba ubah filter kota atau harga.')
             elif cari and not keyword:
                 st.warning("Masukkan kata kunci dulu!")
             else:
-                st.markdown('<div class="empty-state"><div class="icon">🔍</div><h3>Ketik Kata Kunci</h3><p>Contoh: "pantai Yogyakarta", "museum Jakarta", "kebun binatang"</p></div>', unsafe_allow_html=True)
+                st.markdown('<div class="empty-state"><div class="icon">🔍</div><h3>Ketik Kata Kunci</h3><p>Contoh: "pantai Bali", "museum Jakarta", "kebun binatang"</p></div>', unsafe_allow_html=True)
 
         # ── MODE 2: Pilih dari Daftar ────────────────────────
         elif "Daftar" in mode:
